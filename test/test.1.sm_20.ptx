@@ -1,0 +1,55 @@
+
+
+
+
+
+
+
+
+.version 5.0
+.target sm_20
+.address_size 64
+
+
+
+.visible .entry _Z5inputPiS_(
+.param .u64 _Z5inputPiS__param_0,
+.param .u64 _Z5inputPiS__param_1
+)
+{
+.reg .pred %p<2>;
+.reg .b32 %r<15>;
+.reg .b64 %rd<14>;
+
+
+ld.param.u64 %rd7, [_Z5inputPiS__param_0];
+ld.param.u64 %rd8, [_Z5inputPiS__param_1];
+cvta.to.global.u64 %rd9, %rd7;
+mov.u32 %r5, %ctaid.x;
+shl.b32 %r6, %r5, 9;
+mov.u32 %r7, %ntid.x;
+mov.u32 %r8, %tid.x;
+shl.b32 %r9, %r8, 9;
+mad.lo.s32 %r10, %r6, %r7, %r9;
+add.s32 %r1, %r10, 2047;
+mul.lo.s32 %r11, %r5, %r7;
+mad.lo.s32 %r12, %r11, 512, %r9;
+add.s32 %r14, %r12, -1;
+mul.wide.s32 %rd10, %r12, 4;
+add.s64 %rd13, %rd9, %rd10;
+cvta.to.global.u64 %rd11, %rd8;
+add.s64 %rd12, %rd11, %rd10;
+
+BB0_1:
+ld.global.u32 %r13, [%rd12];
+st.global.u32 [%rd13], %r13;
+add.s64 %rd13, %rd13, 4;
+add.s64 %rd12, %rd12, 4;
+add.s32 %r14, %r14, 1;
+setp.lt.s32	%p1, %r14, %r1;
+@%p1 bra BB0_1;
+
+ret;
+}
+
+

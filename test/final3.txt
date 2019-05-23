@@ -1,0 +1,6210 @@
+
+
+        *** GPGPU-Sim Simulator Version 4.0.0  [build gpgpu-sim_git-commit-e5322e7bbe2c884b62aaecad0f854251c2187ba6_modified_3] ***
+
+
+GPGPU-Sim PTX: simulation mode 0 (can change with PTX_SIM_MODE_FUNC environment variable:
+               1=functional simulation only, 0=detailed performance simulator)
+GPGPU-Sim PTX: overriding embedded ptx with ptx file (PTX_SIM_USE_PTX_FILE is set)
+GPGPU-Sim: Configuration options:
+
+-network_mode                           1 # Interconnection network mode
+-inter_config_file   config_fermi_islip.icnt # Interconnection network config file
+-gpgpu_ptx_use_cuobjdump                    1 # Use cuobjdump to extract ptx and sass from binaries
+-gpgpu_experimental_lib_support                    0 # Try to extract code from cuda libraries [Broken because of unknown cudaGetExportTable]
+-checkpoint_option                      0 #  checkpointing flag (0 = no checkpoint)
+-checkpoint_kernel                      1 #  checkpointing during execution of which kernel (1- 1st kernel)
+-checkpoint_CTA                         0 #  checkpointing after # of CTA (< less than total CTA)
+-resume_option                          0 #  resume flag (0 = no resume)
+-resume_kernel                          0 #  Resume from which kernel (1= 1st kernel)
+-resume_CTA                             0 #  resume from which CTA 
+-checkpoint_CTA_t                       0 #  resume from which CTA 
+-checkpoint_insn_Y                      0 #  resume from which CTA 
+-gpgpu_ptx_convert_to_ptxplus                    0 # Convert SASS (native ISA) to ptxplus and run ptxplus
+-gpgpu_ptx_force_max_capability                   61 # Force maximum compute capability
+-gpgpu_ptx_inst_debug_to_file                    0 # Dump executed instructions' debug information to file
+-gpgpu_ptx_inst_debug_file       inst_debug.txt # Executed instructions' debug output file
+-gpgpu_ptx_inst_debug_thread_uid                    1 # Thread UID for executed instructions' debug output
+-gpgpu_simd_model                       1 # 1 = post-dominator
+-gpgpu_shader_core_pipeline              1024:32 # shader core pipeline config, i.e., {<nthread>:<warpsize>}
+-gpgpu_tex_cache:l1  N:16:128:24,L:R:m:N:L,T:128:4,128:2 # per-shader L1 texture cache  (READ-ONLY) config  {<nsets>:<bsize>:<assoc>,<rep>:<wr>:<alloc>:<wr_alloc>,<mshr>:<N>:<merge>,<mq>:<rf>}
+-gpgpu_const_cache:l1 N:128:64:2,L:R:f:N:L,S:2:64,4 # per-shader L1 constant memory cache  (READ-ONLY) config  {<nsets>:<bsize>:<assoc>,<rep>:<wr>:<alloc>:<wr_alloc>,<mshr>:<N>:<merge>,<mq>} 
+-gpgpu_cache:il1     N:8:128:4,L:R:f:N:L,S:2:48,4 # shader L1 instruction cache config  {<nsets>:<bsize>:<assoc>,<rep>:<wr>:<alloc>:<wr_alloc>,<mshr>:<N>:<merge>,<mq>} 
+-gpgpu_cache:dl1     S:4:128:48,L:L:s:N:L,A:256:8,16:0,32 # per-shader L1 data cache config  {<nsets>:<bsize>:<assoc>,<rep>:<wr>:<alloc>:<wr_alloc>,<mshr>:<N>:<merge>,<mq> | none}
+-l1_latency                            82 # L1 Hit Latency
+-smem_latency                          24 # smem Latency
+-gpgpu_cache:dl1PrefL1 S:4:128:48,L:L:s:N:L,A:256:8,16:0,32 # per-shader L1 data cache config  {<nsets>:<bsize>:<assoc>,<rep>:<wr>:<alloc>:<wr_alloc>,<mshr>:<N>:<merge>,<mq> | none}
+-gpgpu_cache:dl1PrefShared S:4:128:48,L:L:s:N:L,A:256:8,16:0,32 # per-shader L1 data cache config  {<nsets>:<bsize>:<assoc>,<rep>:<wr>:<alloc>:<wr_alloc>,<mshr>:<N>:<merge>,<mq> | none}
+-gmem_skip_L1D                          1 # global memory access skip L1D cache (implements -Xptxas -dlcm=cg, default=no skip)
+-gpgpu_perfect_mem                      0 # enable perfect memory mode (no cache miss)
+-n_regfile_gating_group                    4 # group of lanes that should be read/written together)
+-gpgpu_clock_gated_reg_file                    0 # enable clock gated reg file for power calculations
+-gpgpu_clock_gated_lanes                    0 # enable clock gated lanes for power calculations
+-gpgpu_shader_registers                32768 # Number of registers per shader core. Limits number of concurrent CTAs. (default 8192)
+-gpgpu_registers_per_block                 8192 # Maximum number of registers per CTA. (default 8192)
+-gpgpu_ignore_resources_limitation                    1 # gpgpu_ignore_resources_limitation (default 0)
+-gpgpu_shader_cta                      16 # Maximum number of concurrent CTAs in shader (default 8)
+-gpgpu_num_cta_barriers                   16 # Maximum number of named barriers per CTA (default 16)
+-gpgpu_n_clusters                      28 # number of processing clusters
+-gpgpu_n_cores_per_cluster                    2 # number of simd cores per cluster
+-gpgpu_n_cluster_ejection_buffer_size                   32 # number of packets in ejection buffer
+-gpgpu_n_ldst_response_buffer_size                    2 # number of response packets in ld/st unit ejection buffer
+-gpgpu_shmem_per_block                49152 # Size of shared memory per thread block or CTA (default 48kB)
+-gpgpu_shmem_size                   16384 # Size of shared memory per shader core (default 16kB)
+-adpative_volta_cache_config                    0 # adpative_volta_cache_config
+-gpgpu_shmem_size                   49152 # Size of shared memory per shader core (default 16kB)
+-gpgpu_shmem_size_PrefL1                49152 # Size of shared memory per shader core (default 16kB)
+-gpgpu_shmem_size_PrefShared                49152 # Size of shared memory per shader core (default 16kB)
+-gpgpu_shmem_num_banks                   32 # Number of banks in the shared memory in each shader core (default 16)
+-gpgpu_shmem_limited_broadcast                    0 # Limit shared memory to do one broadcast per cycle (default on)
+-gpgpu_shmem_warp_parts                    1 # Number of portions a warp is divided into for shared memory bank conflict check 
+-mem_unit_ports                         1 # The number of memory transactions allowed per core cycle
+-gpgpu_shmem_warp_parts                    1 # Number of portions a warp is divided into for shared memory bank conflict check 
+-gpgpu_warpdistro_shader                   -1 # Specify which shader core to collect the warp size distribution from
+-gpgpu_warp_issue_shader                    0 # Specify which shader core to collect the warp issue distribution from
+-gpgpu_local_mem_map                    1 # Mapping from local memory space address to simulated GPU physical address space (default = enabled)
+-gpgpu_num_reg_banks                   32 # Number of register banks (default = 8)
+-gpgpu_reg_bank_use_warp_id                    0 # Use warp ID in mapping registers to banks (default = off)
+-sub_core_model                         0 # Sub Core Volta/Pascal model (default = off)
+-enable_specialized_operand_collector                    1 # enable_specialized_operand_collector
+-gpgpu_operand_collector_num_units_sp                   12 # number of collector units (default = 4)
+-gpgpu_operand_collector_num_units_dp                    6 # number of collector units (default = 0)
+-gpgpu_operand_collector_num_units_sfu                    6 # number of collector units (default = 4)
+-gpgpu_operand_collector_num_units_int                    0 # number of collector units (default = 0)
+-gpgpu_operand_collector_num_units_tensor_core                    4 # number of collector units (default = 4)
+-gpgpu_operand_collector_num_units_mem                    8 # number of collector units (default = 2)
+-gpgpu_operand_collector_num_units_gen                    0 # number of collector units (default = 0)
+-gpgpu_operand_collector_num_in_ports_sp                    2 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_in_ports_dp                    1 # number of collector unit in ports (default = 0)
+-gpgpu_operand_collector_num_in_ports_sfu                    2 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_in_ports_int                    0 # number of collector unit in ports (default = 0)
+-gpgpu_operand_collector_num_in_ports_tensor_core                    1 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_in_ports_mem                    1 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_in_ports_gen                    0 # number of collector unit in ports (default = 0)
+-gpgpu_operand_collector_num_out_ports_sp                    2 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_out_ports_dp                    1 # number of collector unit in ports (default = 0)
+-gpgpu_operand_collector_num_out_ports_sfu                    2 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_out_ports_int                    0 # number of collector unit in ports (default = 0)
+-gpgpu_operand_collector_num_out_ports_tensor_core                    1 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_out_ports_mem                    1 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_out_ports_gen                    0 # number of collector unit in ports (default = 0)
+-gpgpu_coalesce_arch                   61 # Coalescing arch (GT200 = 13, Fermi = 20)
+-gpgpu_num_sched_per_core                    2 # Number of warp schedulers per core
+-gpgpu_max_insn_issue_per_warp                    2 # Max number of instructions that can be issued per warp in one cycle by scheduler (either 1 or 2)
+-gpgpu_dual_issue_diff_exec_units                    1 # should dual issue use two different execution unit resources (Default = 1)
+-gpgpu_simt_core_sim_order                    1 # Select the simulation order of cores in a cluster (0=Fix, 1=Round-Robin)
+-gpgpu_pipeline_widths 2,1,0,2,1,2,1,0,2,1,5 # Pipeline widths ID_OC_SP,ID_OC_DP,ID_OC_INT,ID_OC_SFU,ID_OC_MEM,OC_EX_SP,OC_EX_DP,OC_EX_INT,OC_EX_SFU,OC_EX_MEM,EX_WB,ID_OC_TENSOR_CORE,OC_EX_TENSOR_CORE
+-gpgpu_tensor_core_avail                    0 # Tensor Core Available (default=0)
+-gpgpu_num_sp_units                     2 # Number of SP units (default=1)
+-gpgpu_num_dp_units                     1 # Number of DP units (default=0)
+-gpgpu_num_int_units                    0 # Number of INT units (default=0)
+-gpgpu_num_sfu_units                    2 # Number of SF units (default=1)
+-gpgpu_num_tensor_core_units                    1 # Number of tensor_core units (default=1)
+-gpgpu_num_mem_units                    1 # Number if ldst units (default=1) WARNING: not hooked up to anything
+-gpgpu_scheduler                      gto # Scheduler configuration: < lrr | gto | two_level_active > If two_level_active:<num_active_warps>:<inner_prioritization>:<outer_prioritization>For complete list of prioritization values see shader.h enum scheduler_prioritization_typeDefault: gto
+-gpgpu_concurrent_kernel_sm                    0 # Support concurrent kernels on a SM (default = disabled)
+-perf_sim_memcpy                        1 # Fill the L2 cache on memcpy
+-gpgpu_dram_scheduler                    1 # 0 = fifo, 1 = FR-FCFS (defaul)
+-gpgpu_dram_partition_queues          32:32:32:32 # i2$:$2d:d2$:$2i
+-l2_ideal                               0 # Use a ideal L2 cache that always hit
+-gpgpu_cache:dl2     S:64:128:16,L:B:m:L:L,A:256:64,16:0,32 # unified banked L2 data cache config  {<nsets>:<bsize>:<assoc>,<rep>:<wr>:<alloc>:<wr_alloc>,<mshr>:<N>:<merge>,<mq>}
+-gpgpu_cache:dl2_texture_only                    0 # L2 cache used for texture only
+-gpgpu_n_mem                           12 # number of memory modules (e.g. memory controllers) in gpu
+-gpgpu_n_sub_partition_per_mchannel                    2 # number of memory subpartition in each memory module
+-gpgpu_n_mem_per_ctrlr                    1 # number of memory chips per memory controller
+-gpgpu_memlatency_stat                   14 # track and display latency statistics 0x2 enables MC, 0x4 enables queue logs
+-gpgpu_frfcfs_dram_sched_queue_size                   64 # 0 = unlimited (default); # entries per chip
+-gpgpu_dram_return_queue_size                   64 # 0 = unlimited (default); # entries per chip
+-gpgpu_dram_buswidth                    4 # default = 4 bytes (8 bytes per cycle at DDR)
+-gpgpu_dram_burst_length                    8 # Burst length of each DRAM request (default = 4 data bus cycle)
+-dram_data_command_freq_ratio                    4 # Frequency ratio between DRAM data bus and command bus (default = 2 times, i.e. DDR)
+-gpgpu_dram_timing_opt nbk=16:CCD=2:RRD=8:RCD=16:RAS=37:RP=16:RC=52: CL=16:WL=6:CDLR=7:WR=16:nbkgrp=4:CCDL=4:RTPL=3 # DRAM timing parameters = {nbk:tCCD:tRRD:tRCD:tRAS:tRP:tRC:CL:WL:tCDLR:tWR:nbkgrp:tCCDL:tRTPL}
+-rop_latency                          120 # ROP queue latency (default 85)
+-dram_latency                         100 # DRAM latency (default 30)
+-dual_bus_interface                     0 # dual_bus_interface (default = 0) 
+-dram_bnk_indexing_policy                    0 # dram_bnk_indexing_policy (0 = normal indexing, 1 = Xoring with the higher bits) (Default = 0)
+-dram_bnkgrp_indexing_policy                    1 # dram_bnkgrp_indexing_policy (0 = take higher bits, 1 = take lower bits) (Default = 0)
+-Seperate_Write_Queue_Enable                    0 # Seperate_Write_Queue_Enable
+-Write_Queue_Size                32:28:16 # Write_Queue_Size
+-Elimnate_rw_turnaround                    0 # elimnate_rw_turnaround i.e set tWTR and tRTW = 0
+-icnt_flit_size                        40 # icnt_flit_size
+-gpgpu_mem_addr_mapping dramid@8;00000000.00000000.00000000.00000000.0000RRRR.RRRRRRRR.RBBBCCCC.BCCSSSSS # mapping memory address to dram model {dramid@<start bit>;<memory address map>}
+-gpgpu_mem_addr_test                    0 # run sweep test to check address mapping for aliased address
+-gpgpu_mem_address_mask                    1 # 0 = old addressing mask, 1 = new addressing mask, 2 = new add. mask + flipped bank sel and chip sel bits
+-memory_partition_indexing                    0 # 0 = no indexing, 1 = bitwise xoring, 2 = IPoly, 3 = custom indexing
+-gpuwattch_xml_file         gpuwattch.xml # GPUWattch XML file
+-power_simulation_enabled                    0 # Turn on power simulator (1=On, 0=Off)
+-power_per_cycle_dump                    0 # Dump detailed power output each cycle
+-power_trace_enabled                    0 # produce a file for the power trace (1=On, 0=Off)
+-power_trace_zlevel                     6 # Compression level of the power trace output log (0=no comp, 9=highest)
+-steady_power_levels_enabled                    0 # produce a file for the steady power levels (1=On, 0=Off)
+-steady_state_definition                  8:4 # allowed deviation:number of samples
+-gpgpu_max_cycle                        0 # terminates gpu simulation early (0 = no limit)
+-gpgpu_max_insn                         0 # terminates gpu simulation early (0 = no limit)
+-gpgpu_max_cta                          0 # terminates gpu simulation early (0 = no limit)
+-gpgpu_runtime_stat                   500 # display runtime statistics such as dram utilization {<freq>:<flag>}
+-liveness_message_freq                    1 # Minimum number of seconds between simulation liveness messages (0 = always print)
+-gpgpu_flush_l1_cache                    1 # Flush L1 cache at the end of each kernel call
+-gpgpu_flush_l2_cache                    0 # Flush L2 cache at the end of each kernel call
+-gpgpu_deadlock_detect                    1 # Stop the simulation at deadlock (1=on (default), 0=off)
+-gpgpu_ptx_instruction_classification                    0 # if enabled will classify ptx instruction types per kernel (Max 255 kernels now)
+-gpgpu_ptx_sim_mode                     0 # Select between Performance (default) or Functional simulation (1)
+-gpgpu_clock_domains 1417.0:1417.0:1417.0:2500.0 # Clock Domain Frequencies in MhZ {<Core Clock>:<ICNT Clock>:<L2 Clock>:<DRAM Clock>}
+-gpgpu_max_concurrent_kernel                    8 # maximum kernels that can run concurrently on GPU
+-gpgpu_cflog_interval                    0 # Interval between each snapshot in control flow logger
+-visualizer_enabled                     0 # Turn on visualizer output (1=On, 0=Off)
+-visualizer_outputfile                 NULL # Specifies the output log file for visualizer
+-visualizer_zlevel                      6 # Compression level of the visualizer output log (0=no comp, 9=highest)
+-trace_enabled                          0 # Turn on traces
+-trace_components                    none # comma seperated list of traces to enable. Complete list found in trace_streams.tup. Default none
+-trace_sampling_core                    0 # The core which is printed using CORE_DPRINTF. Default 0
+-trace_sampling_memory_partition                   -1 # The memory partition which is printed using MEMPART_DPRINTF. Default -1 (i.e. all)
+-enable_ptx_file_line_stats                    1 # Turn on PTX source line statistic profiling. (1 = On)
+-ptx_line_stats_filename gpgpu_inst_stats.txt # Output file for PTX source line statistics.
+-gpgpu_kernel_launch_latency                    0 # Kernel launch latency in cycles. Default: 0
+-gpgpu_cdp_enabled                      0 # Turn on CDP
+-save_embedded_ptx                      0 # saves ptx files embedded in binary as <n>.ptx
+-keep                                   0 # keep intermediate files created by GPGPU-Sim when interfacing with external programs
+-gpgpu_ptx_save_converted_ptxplus                    0 # Saved converted ptxplus to a file
+-gpgpu_occupancy_sm_number                   62 # The SM number to pass to ptxas when getting register usage for computing GPU occupancy. This parameter is required in the config.
+-ptx_opcode_latency_int         4,13,4,5,145 # Opcode latencies for integers <ADD,MAX,MUL,MAD,DIV>Default 1,1,19,25,145
+-ptx_opcode_latency_fp          4,13,4,5,39 # Opcode latencies for single precision floating points <ADD,MAX,MUL,MAD,DIV>Default 1,1,1,1,30
+-ptx_opcode_latency_dp         8,19,8,8,330 # Opcode latencies for double precision floating points <ADD,MAX,MUL,MAD,DIV>Default 8,8,8,8,335
+-ptx_opcode_latency_sfu                    8 # Opcode latencies for SFU instructionsDefault 8
+-ptx_opcode_latency_tesnor                   64 # Opcode latencies for Tensor instructionsDefault 64
+-ptx_opcode_initiation_int            1,1,1,1,4 # Opcode initiation intervals for integers <ADD,MAX,MUL,MAD,DIV>Default 1,1,4,4,32
+-ptx_opcode_initiation_fp            1,2,1,1,4 # Opcode initiation intervals for single precision floating points <ADD,MAX,MUL,MAD,DIV>Default 1,1,1,1,5
+-ptx_opcode_initiation_dp          8,8,8,8,130 # Opcode initiation intervals for double precision floating points <ADD,MAX,MUL,MAD,DIV>Default 8,8,8,8,130
+-ptx_opcode_initiation_sfu                    4 # Opcode initiation intervals for sfu instructionsDefault 8
+-ptx_opcode_initiation_tensor                   64 # Opcode initiation intervals for tensor instructionsDefault 64
+-cdp_latency         7200,8000,100,12000,1600 # CDP API latency <cudaStreamCreateWithFlags, cudaGetParameterBufferV2_init_perWarp, cudaGetParameterBufferV2_perKernel, cudaLaunchDeviceV2_init_perWarp, cudaLaunchDevicV2_perKernel>Default 7200,8000,100,12000,1600
+DRAM Timing Options:
+nbk                                    16 # number of banks
+CCD                                     2 # column to column delay
+RRD                                     8 # minimal delay between activation of rows in different banks
+RCD                                    16 # row to column delay
+RAS                                    37 # time needed to activate row
+RP                                     16 # time needed to precharge (deactivate) row
+RC                                     52 # row cycle time
+CDLR                                    7 # switching from write to read (changes tWTR)
+WR                                     16 # last data-in to row precharge
+CL                                     16 # CAS latency
+WL                                      6 # Write latency
+nbkgrp                                  4 # number of bank groups
+CCDL                                    4 # column to column delay between accesses to different bank groups
+RTPL                                    3 # read to precharge delay between accesses to different bank groups
+Total number of memory sub partition = 24
+addr_dec_mask[CHIP]  = 0000000000000000 	high:64 low:0
+addr_dec_mask[BK]    = 0000000000007080 	high:15 low:7
+addr_dec_mask[ROW]   = 000000000fff8000 	high:28 low:15
+addr_dec_mask[COL]   = 0000000000000f7f 	high:12 low:0
+addr_dec_mask[BURST] = 000000000000001f 	high:5 low:0
+sub_partition_id_mask = 0000000000000080
+GPGPU-Sim uArch: clock freqs: 1417000000.000000:1417000000.000000:1417000000.000000:2500000000.000000
+GPGPU-Sim uArch: clock periods: 0.00000000070571630205:0.00000000070571630205:0.00000000070571630205:0.00000000040000000000
+*** Initializing Memory Statistics ***
+GPGPU-Sim uArch: interconnect node map (shaderID+MemID to icntID)
+GPGPU-Sim uArch: Memory nodes ID start from index: 28
+GPGPU-Sim uArch:    0   1   2   3   4   5   6
+GPGPU-Sim uArch:    7   8   9  10  11  12  13
+GPGPU-Sim uArch:   14  15  16  17  18  19  20
+GPGPU-Sim uArch:   21  22  23  24  25  26  27
+GPGPU-Sim uArch:   28  29  30  31  32  33  34
+GPGPU-Sim uArch:   35  36  37  38  39  40  41
+GPGPU-Sim uArch:   42  43  44  45  46  47  48
+GPGPU-Sim uArch:   49  50  51
+GPGPU-Sim uArch: interconnect node reverse map (icntID to shaderID+MemID)
+GPGPU-Sim uArch: Memory nodes start from ID: 28
+GPGPU-Sim uArch:    0   1   2   3   4   5   6
+GPGPU-Sim uArch:    7   8   9  10  11  12  13
+GPGPU-Sim uArch:   14  15  16  17  18  19  20
+GPGPU-Sim uArch:   21  22  23  24  25  26  27
+GPGPU-Sim uArch:   28  29  30  31  32  33  34
+GPGPU-Sim uArch:   35  36  37  38  39  40  41
+GPGPU-Sim uArch:   42  43  44  45  46  47  48
+GPGPU-Sim uArch:   49  50  51
+926f90b87c15235fc66b701ffff6981b  /1502434/tt2
+Extracting PTX file and ptxas options    1: tt2.1.sm_20.ptx -arch=sm_20
+GPGPU-Sim uArch: performance model initialization complete.
+self exe links to: /1502434/tt2
+self exe links to: /1502434/tt2
+8.0
+GPGPU-Sim PTX: __cudaRegisterFatBinary, fat_cubin_handle = 1, filename=default
+self exe links to: /1502434/tt2
+Running md5sum using "md5sum /1502434/tt2 "
+self exe links to: /1502434/tt2
+Extracting specific PTX file named tt2.1.sm_20.ptx 
+GPGPU-Sim PTX: __cudaRegisterFunction _Z11inputkernelP5inputPKS_ : hostFun 0x0x400de6, fat_cubin_handle = 1
+GPGPU-Sim PTX: Parsing tt2.1.sm_20.ptx
+GPGPU-Sim PTX: instruction assembly for function '_Z11inputkernelP5inputPKS_'...   done.
+GPGPU-Sim PTX: finished parsing EMBEDDED .ptx file tt2.1.sm_20.ptx
+GPGPU-Sim PTX: loading globals with explicit initializers... 
+GPGPU-Sim PTX: finished loading globals (0 bytes total).
+GPGPU-Sim PTX: loading constants with explicit initializers...  done.
+GPGPU-Sim PTX: Loading PTXInfo from tt2.1.sm_20.ptx
+GPGPU-Sim PTX: Kernel '_Z11inputkernelP5inputPKS_' : regs=8, lmem=0, smem=0, cmem=48
+GPGPU-Sim PTX: Setting up arguments for 8 bytes starting at 0x7ffd9cc5ddc8..
+GPGPU-Sim PTX: Setting up arguments for 8 bytes starting at 0x7ffd9cc5ddc0..
+
+GPGPU-Sim PTX: cudaLaunch for 0x0x400de6 (mode=performance simulation) on stream 0
+GPGPU-Sim PTX: finding reconvergence points for '_Z11inputkernelP5inputPKS_'...
+GPGPU-Sim PTX: Finding dominators for '_Z11inputkernelP5inputPKS_'...
+GPGPU-Sim PTX: Finding immediate dominators for '_Z11inputkernelP5inputPKS_'...
+GPGPU-Sim PTX: Finding postdominators for '_Z11inputkernelP5inputPKS_'...
+GPGPU-Sim PTX: Finding immediate postdominators for '_Z11inputkernelP5inputPKS_'...
+GPGPU-Sim PTX: pre-decoding instructions for '_Z11inputkernelP5inputPKS_'...
+GPGPU-Sim PTX: reconvergence points for _Z11inputkernelP5inputPKS_...
+GPGPU-Sim PTX: ... end of reconvergence points for _Z11inputkernelP5inputPKS_
+GPGPU-Sim PTX: ... done pre-decoding instructions for '_Z11inputkernelP5inputPKS_'.
+GPGPU-Sim PTX: pushing kernel '_Z11inputkernelP5inputPKS_' to stream 0, gridDim= (10,1,1) blockDim = (100,1,1) 
+GPGPU-Sim uArch: Shader 0 bind to kernel 1 '_Z11inputkernelP5inputPKS_'
+GPGPU-Sim uArch: CTA/core = 8, limited by: threads
+GPGPU-Sim uArch: Shader 2 bind to kernel 1 '_Z11inputkernelP5inputPKS_'
+GPGPU-Sim uArch: Shader 4 bind to kernel 1 '_Z11inputkernelP5inputPKS_'
+GPGPU-Sim uArch: Shader 6 bind to kernel 1 '_Z11inputkernelP5inputPKS_'
+GPGPU-Sim uArch: Shader 8 bind to kernel 1 '_Z11inputkernelP5inputPKS_'
+GPGPU-Sim uArch: Shader 10 bind to kernel 1 '_Z11inputkernelP5inputPKS_'
+GPGPU-Sim uArch: Shader 12 bind to kernel 1 '_Z11inputkernelP5inputPKS_'
+GPGPU-Sim uArch: Shader 14 bind to kernel 1 '_Z11inputkernelP5inputPKS_'
+GPGPU-Sim uArch: Shader 16 bind to kernel 1 '_Z11inputkernelP5inputPKS_'
+GPGPU-Sim uArch: Shader 18 bind to kernel 1 '_Z11inputkernelP5inputPKS_'
+push called
+in the issue_row_command()
+issue row command in IDLE 0 
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+issue row command in ACTIVE 0 
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 0 
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+issue row command in IDLE 5 
+in the issue_row_command()
+issue row command in IDLE 5 
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+push called
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+issue row command in IDLE 4 
+in the issue_row_command()
+issue row command in IDLE 4 
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+issue row command in IDLE 5 
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 5 
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 4 
+in the issue_row_command()
+issue row command in IDLE 4 
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+issue row command in IDLE 4 
+push called
+in the issue_row_command()
+issue row command in IDLE 4 
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 5 
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 5 
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 4 
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 6 
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 4 
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+issue row command in IDLE 4 
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 6 
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 6 
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 5 
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+issue row command in IDLE 7 
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+issue row command in IDLE 4 
+push called
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 4 
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 5 
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+issue row command in IDLE 5 
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+issue row command in IDLE 7 
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+issue row command in IDLE 7 
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+issue row command in IDLE 5 
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 5 
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 5 
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 6 
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 4 
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 7 
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 6 
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 6 
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 7 
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 7 
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 6 
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 7 
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 6 
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 7 
+push called
+in the issue_row_command()
+push called
+push called
+push called
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 6 
+push called
+in the issue_row_command()
+push called
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 6 
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 7 
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 7 
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 6 
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+push called
+push called
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 7 
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 7 
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+issue row command in IDLE 6 
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+push called
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+push called
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+push called
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+push called
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+in the issue_row_command()
+Destroy streams for kernel 1: size 0
+kernel_name = _Z11inputkernelP5inputPKS_ 
+kernel_launch_uid = 1 
+gpu_sim_cycle = 1286
+gpu_sim_insn = 14000
+gpu_ipc =      10.8865
+gpu_tot_sim_cycle = 1286
+gpu_tot_sim_insn = 14000
+gpu_tot_ipc =      10.8865
+gpu_tot_issued_cta = 10
+gpu_occupancy = 11.9428% 
+gpu_tot_occupancy = 11.9428% 
+max_total_param_size = 0
+gpu_stall_dramfull = 0
+gpu_stall_icnt2sh    = 0
+partiton_level_parallism =       1.5708
+partiton_level_parallism_total  =       1.5708
+partiton_level_parallism_util =       5.9763
+partiton_level_parallism_util_total  =       5.9763
+L2_BW  =      72.6350 GB/Sec
+L2_BW_total  =      72.6350 GB/Sec
+gpu_total_sim_rate=14000
+
+========= Core cache stats =========
+L1I_cache:
+	L1I_total_cache_accesses = 280
+	L1I_total_cache_misses = 40
+	L1I_total_cache_miss_rate = 0.1429
+	L1I_total_cache_pending_hits = 0
+	L1I_total_cache_reservation_fails = 0
+L1D_cache:
+	L1D_cache_core[0]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[1]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[2]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[3]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[4]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[5]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[6]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[7]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[8]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[9]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[10]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[11]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[12]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[13]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[14]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[15]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[16]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[17]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[18]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[19]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[20]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[21]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[22]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[23]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[24]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[25]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[26]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[27]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_total_cache_accesses = 0
+	L1D_total_cache_misses = 0
+	L1D_total_cache_pending_hits = 0
+	L1D_total_cache_reservation_fails = 0
+	L1D_cache_data_port_util = 0.000
+	L1D_cache_fill_port_util = 0.000
+L1C_cache:
+	L1C_total_cache_accesses = 80
+	L1C_total_cache_misses = 80
+	L1C_total_cache_miss_rate = 1.0000
+	L1C_total_cache_pending_hits = 0
+	L1C_total_cache_reservation_fails = 0
+L1T_cache:
+	L1T_total_cache_accesses = 0
+	L1T_total_cache_misses = 0
+	L1T_total_cache_pending_hits = 0
+	L1T_total_cache_reservation_fails = 0
+
+Total_core_cache_stats:
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_R][HIT] = 0
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_R][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_R][MISS] = 0
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_R][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_R][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_R][HIT] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_R][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_R][MISS] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_R][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_R][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[CONST_ACC_R][HIT] = 0
+	Total_core_cache_stats_breakdown[CONST_ACC_R][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[CONST_ACC_R][MISS] = 80
+	Total_core_cache_stats_breakdown[CONST_ACC_R][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[CONST_ACC_R][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[TEXTURE_ACC_R][HIT] = 0
+	Total_core_cache_stats_breakdown[TEXTURE_ACC_R][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[TEXTURE_ACC_R][MISS] = 0
+	Total_core_cache_stats_breakdown[TEXTURE_ACC_R][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[TEXTURE_ACC_R][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_W][HIT] = 0
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_W][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_W][MISS] = 0
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_W][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_W][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_W][HIT] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_W][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_W][MISS] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_W][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_W][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[L1_WRBK_ACC][HIT] = 0
+	Total_core_cache_stats_breakdown[L1_WRBK_ACC][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[L1_WRBK_ACC][MISS] = 0
+	Total_core_cache_stats_breakdown[L1_WRBK_ACC][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[L1_WRBK_ACC][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[L2_WRBK_ACC][HIT] = 0
+	Total_core_cache_stats_breakdown[L2_WRBK_ACC][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[L2_WRBK_ACC][MISS] = 0
+	Total_core_cache_stats_breakdown[L2_WRBK_ACC][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[L2_WRBK_ACC][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[INST_ACC_R][HIT] = 240
+	Total_core_cache_stats_breakdown[INST_ACC_R][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[INST_ACC_R][MISS] = 40
+	Total_core_cache_stats_breakdown[INST_ACC_R][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[INST_ACC_R][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[L1_WR_ALLOC_R][HIT] = 0
+	Total_core_cache_stats_breakdown[L1_WR_ALLOC_R][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[L1_WR_ALLOC_R][MISS] = 0
+	Total_core_cache_stats_breakdown[L1_WR_ALLOC_R][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[L1_WR_ALLOC_R][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[L2_WR_ALLOC_R][HIT] = 0
+	Total_core_cache_stats_breakdown[L2_WR_ALLOC_R][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[L2_WR_ALLOC_R][MISS] = 0
+	Total_core_cache_stats_breakdown[L2_WR_ALLOC_R][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[L2_WR_ALLOC_R][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[CONST_ACC_R][TOTAL_ACCESS] = 80
+	Total_core_cache_stats_breakdown[INST_ACC_R][TOTAL_ACCESS] = 280
+
+Total_core_cache_fail_stats:
+Shader 0 warp_id issue ditsribution:
+warp_id:
+0, 1, 2, 3, 
+distro:
+15, 15, 15, 15, 
+gpgpu_n_tot_thrd_icount = 17920
+gpgpu_n_tot_w_icount = 560
+gpgpu_n_stall_shd_mem = 1920
+gpgpu_n_mem_read_local = 0
+gpgpu_n_mem_write_local = 0
+gpgpu_n_mem_read_global = 1000
+gpgpu_n_mem_write_global = 1000
+gpgpu_n_mem_texture = 0
+gpgpu_n_mem_const = 10
+gpgpu_n_load_insn  = 1000
+gpgpu_n_store_insn = 1000
+gpgpu_n_shmem_insn = 0
+gpgpu_n_sstarr_insn = 0
+gpgpu_n_tex_insn = 0
+gpgpu_n_const_mem_insn = 0
+gpgpu_n_param_mem_insn = 2000
+gpgpu_n_shmem_bkconflict = 0
+gpgpu_n_cache_bkconflict = 0
+gpgpu_n_intrawarp_mshr_merge = 0
+gpgpu_n_cmem_portconflict = 0
+gpgpu_stall_shd_mem[c_mem][resource_stall] = 0
+gpgpu_stall_shd_mem[s_mem][bk_conf] = 0
+gpgpu_stall_shd_mem[gl_mem][resource_stall] = 0
+gpgpu_stall_shd_mem[gl_mem][coal_stall] = 1920
+gpgpu_stall_shd_mem[gl_mem][data_port_stall] = 0
+gpu_reg_bank_conflict_stalls = 0
+Warp Occupancy Distribution:
+Stall:65	W0_Idle:35234	W0_Scoreboard:13665	W1:0	W2:0	W3:0	W4:140	W5:0	W6:0	W7:0	W8:0	W9:0	W10:0	W11:0	W12:0	W13:0	W14:0	W15:0	W16:0	W17:0	W18:0	W19:0	W20:0	W21:0	W22:0	W23:0	W24:0	W25:0	W26:0	W27:0	W28:0	W29:0	W30:0	W31:0	W32:420
+single_issue_nums: WS0:240	WS1:240	
+dual_issue_nums: WS0:20	WS1:20	
+traffic_breakdown_coretomem[CONST_ACC_R] = 80 {8:10,}
+traffic_breakdown_coretomem[GLOBAL_ACC_R] = 8000 {8:1000,}
+traffic_breakdown_coretomem[GLOBAL_ACC_W] = 40000 {40:1000,}
+traffic_breakdown_coretomem[INST_ACC_R] = 80 {8:10,}
+traffic_breakdown_memtocore[CONST_ACC_R] = 800 {40:20,}
+traffic_breakdown_memtocore[GLOBAL_ACC_R] = 40000 {40:1000,}
+traffic_breakdown_memtocore[GLOBAL_ACC_W] = 8000 {8:1000,}
+traffic_breakdown_memtocore[INST_ACC_R] = 1600 {40:40,}
+maxmflatency = 340 
+max_icnt2mem_latency = 62 
+maxmrqlatency = 58 
+max_icnt2sh_latency = 51 
+averagemflatency = 267 
+avg_icnt2mem_latency = 28 
+avg_mrq_latency = 7 
+avg_icnt2sh_latency = 26 
+mrq_lat_table:351 	166 	180 	176 	91 	42 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	
+dq_lat_table:0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	
+mf_lat_table:0 	0 	0 	0 	0 	0 	0 	1087 	933 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	
+icnt2mem_lat_table:0 	0 	1077 	543 	191 	209 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	
+icnt2sh_lat_table:0 	0 	1119 	431 	342 	128 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	
+mf_lat_pw_table:0 	0 	0 	0 	0 	0 	0 	0 	1 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	
+maximum concurrent accesses to same row:
+dram[0]:         4         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[1]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[2]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[3]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[4]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[5]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[6]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[7]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[8]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[9]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[10]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[11]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+maximum service time to same row:
+dram[0]:       294         0         0         0       858       855       868       864         0         0         0         0         0         0         0         0 
+dram[1]:         0         0         0         0       854       863       860       871         0         0         0         0         0         0         0         0 
+dram[2]:         0         0         0         0       859       855       868       864         0         0         0         0         0         0         0         0 
+dram[3]:         0         0         0         0       854       865       860       894         0         0         0         0         0         0         0         0 
+dram[4]:         0         0         0         0       861       858       890       900         0         0         0         0         0         0         0         0 
+dram[5]:         0         0         0         0       856       865       897       892         0         0         0         0         0         0         0         0 
+dram[6]:         0         0         0         0       863       858       907       905         0         0         0         0         0         0         0         0 
+dram[7]:         0         0         0         0       856       859       887       882         0         0         0         0         0         0         0         0 
+dram[8]:         0         0         0         0       856       852       880       875         0         0         0         0         0         0         0         0 
+dram[9]:         0         0         0         0       858       860       873       868         0         0         0         0         0         0         0         0 
+dram[10]:         0         0         0         0       856       852       865       861         0         0         0         0         0         0         0         0 
+dram[11]:         0         0         0         0       867       863       858       871         0         0         0         0         0         0         0         0 
+average row accesses per activate:
+dram[0]:  3.000000      -nan      -nan      -nan 30.000000 26.000000 14.000000 14.000000      -nan      -nan      -nan      -nan      -nan      -nan      -nan      -nan 
+dram[1]:      -nan      -nan      -nan      -nan 30.000000 29.000000 14.000000 15.000000      -nan      -nan      -nan      -nan      -nan      -nan      -nan      -nan 
+dram[2]:      -nan      -nan      -nan      -nan 27.000000 29.000000 13.000000 15.000000      -nan      -nan      -nan      -nan      -nan      -nan      -nan      -nan 
+dram[3]:      -nan      -nan      -nan      -nan 29.000000 27.000000 15.000000 13.000000      -nan      -nan      -nan      -nan      -nan      -nan      -nan      -nan 
+dram[4]:      -nan      -nan      -nan      -nan 29.000000 30.000000 15.000000 14.000000      -nan      -nan      -nan      -nan      -nan      -nan      -nan      -nan 
+dram[5]:      -nan      -nan      -nan      -nan 26.000000 30.000000 14.000000 14.000000      -nan      -nan      -nan      -nan      -nan      -nan      -nan      -nan 
+dram[6]:      -nan      -nan      -nan      -nan 29.000000 27.000000 15.000000 13.000000      -nan      -nan      -nan      -nan      -nan      -nan      -nan      -nan 
+dram[7]:      -nan      -nan      -nan      -nan 29.000000 29.000000 15.000000 15.000000      -nan      -nan      -nan      -nan      -nan      -nan      -nan      -nan 
+dram[8]:      -nan      -nan      -nan      -nan 27.000000 29.000000 13.000000 12.000000      -nan      -nan      -nan      -nan      -nan      -nan      -nan      -nan 
+dram[9]:      -nan      -nan      -nan      -nan 30.000000 26.000000 11.000000 10.000000      -nan      -nan      -nan      -nan      -nan      -nan      -nan      -nan 
+dram[10]:      -nan      -nan      -nan      -nan 30.000000 29.000000 11.000000 11.000000      -nan      -nan      -nan      -nan      -nan      -nan      -nan      -nan 
+dram[11]:      -nan      -nan      -nan      -nan 27.000000 29.000000 10.000000 11.000000      -nan      -nan      -nan      -nan      -nan      -nan      -nan      -nan 
+average row locality = 1006/50 = 20.120001
+number of total memory accesses made:
+dram[0]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[1]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[2]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[3]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[4]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[5]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[6]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[7]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[8]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[9]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[10]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[11]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+total accesses: 0
+min_bank_accesses = 0!
+min_chip_accesses = 0!
+number of total read accesses:
+dram[0]:         6         0         0         0        30        26        14        14         0         0         0         0         0         0         0         0 
+dram[1]:         0         0         0         0        30        29        14        15         0         0         0         0         0         0         0         0 
+dram[2]:         0         0         0         0        27        29        13        15         0         0         0         0         0         0         0         0 
+dram[3]:         0         0         0         0        29        27        15        13         0         0         0         0         0         0         0         0 
+dram[4]:         0         0         0         0        29        30        15        14         0         0         0         0         0         0         0         0 
+dram[5]:         0         0         0         0        26        30        14        14         0         0         0         0         0         0         0         0 
+dram[6]:         0         0         0         0        29        27        15        13         0         0         0         0         0         0         0         0 
+dram[7]:         0         0         0         0        29        29        15        15         0         0         0         0         0         0         0         0 
+dram[8]:         0         0         0         0        27        29        13        12         0         0         0         0         0         0         0         0 
+dram[9]:         0         0         0         0        30        26        11        10         0         0         0         0         0         0         0         0 
+dram[10]:         0         0         0         0        30        29        11        11         0         0         0         0         0         0         0         0 
+dram[11]:         0         0         0         0        27        29        10        11         0         0         0         0         0         0         0         0 
+total reads: 1006
+min_bank_accesses = 0!
+chip skew: 90/77 = 1.17
+number of total write accesses:
+dram[0]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[1]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[2]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[3]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[4]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[5]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[6]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[7]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[8]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[9]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[10]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[11]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+total reads: 0
+min_bank_accesses = 0!
+min_chip_accesses = 0!
+average mf latency per bank:
+dram[0]:       1938    none      none      none         265       264       270       303    none      none      none      none      none      none      none      none  
+dram[1]:     none      none      none      none         262       264       261       296    none      none      none      none      none      none      none      none  
+dram[2]:     none      none      none      none         277       270       276       278    none      none      none      none      none      none      none      none  
+dram[3]:     none      none      none      none         257       261       258       283    none      none      none      none      none      none      none      none  
+dram[4]:     none      none      none      none         274       257       298       298    none      none      none      none      none      none      none      none  
+dram[5]:     none      none      none      none         257       264       271       280    none      none      none      none      none      none      none      none  
+dram[6]:     none      none      none      none         264       263       273       280    none      none      none      none      none      none      none      none  
+dram[7]:     none      none      none      none         265       264       285       307    none      none      none      none      none      none      none      none  
+dram[8]:     none      none      none      none         257       263       261       277    none      none      none      none      none      none      none      none  
+dram[9]:     none      none      none      none         265       269       277       286    none      none      none      none      none      none      none      none  
+dram[10]:     none      none      none      none         266       258       275       269    none      none      none      none      none      none      none      none  
+dram[11]:     none      none      none      none         270       261       281       301    none      none      none      none      none      none      none      none  
+maximum mf latency per bank:
+dram[0]:        270       179         0         0       277       282       280       318         0         0         0         0         0         0         0         0
+dram[1]:        178       191         0         0       273       276       278       315         0         0         0         0         0         0         0         0
+dram[2]:        191       185         0         0       296       285       287       304         0         0         0         0         0         0         0         0
+dram[3]:        184       182         0         0       267       269       267       300         0         0         0         0         0         0         0         0
+dram[4]:        181       191         0         0       292       264       316       316         0         0         0         0         0         0         0         0
+dram[5]:        191       191         0         0       270       272       280       298         0         0         0         0         0         0         0         0
+dram[6]:        191       191         0         0       280       276       285       292         0         0         0         0         0         0         0         0
+dram[7]:        191       191         0         0       288       278       296       340         0         0         0         0         0         0         0         0
+dram[8]:        191       191         0         0       264       291       273       300         0         0         0         0         0         0         0         0
+dram[9]:        172       172         0         0       291       299       290       306         0         0         0         0         0         0         0         0
+dram[10]:        172       172         0         0       288       269       299       277         0         0         0         0         0         0         0         0
+dram[11]:        157       150         0         0       279       272       317       321         0         0         0         0         0         0         0         0
+Memory Partition 0: 
+Cache L2_bank_000:
+MSHR contents
+
+Cache L2_bank_001:
+MSHR contents
+
+In Dram Latency Queue (total = 0): 
+DRAM[0]: 16 bks, busW=4 BL=8 CL=16, tRRD=8 tCCD=2, tRCD=16 tRAS=37 tRP=16 tRC=52
+n_cmd=2268 n_nop=2172 n_act=6 n_pre=1 n_ref_event=0 n_req=90 n_rd=90 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.07937
+n_activity=328 dram_eff=0.5488
+bk0: 6a 2208i bk1: 0a 2267i bk2: 0a 2268i bk3: 0a 2270i bk4: 30a 2170i bk5: 26a 2169i bk6: 14a 2169i bk7: 14a 2103i bk8: 0a 2265i bk9: 0a 2266i bk10: 0a 2267i bk11: 0a 2267i bk12: 0a 2268i bk13: 0a 2269i bk14: 0a 2269i bk15: 0a 2269i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.933333
+Row_Buffer_Locality_read = 0.933333
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 2.333333
+Bank_Level_Parallism_Col = 2.400826
+Bank_Level_Parallism_Ready = 1.966667
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 2.400826 
+
+BW Util details:
+bwutil = 0.079365 
+total_CMD = 2268 
+util_bw = 180 
+Wasted_Col = 68 
+Wasted_Row = 16 
+Idle = 2004 
+
+BW Util Bottlenecks: 
+RCDc_limit = 64 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 20 
+rwq = 0 
+CCDLc_limit_alone = 20 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 2268 
+n_nop = 2172 
+Read = 90 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 6 
+n_pre = 1 
+n_ref = 0 
+n_req = 90 
+total_req = 90 
+
+Dual Bus Interface Util: 
+issued_total_row = 7 
+issued_total_col = 90 
+Row_Bus_Util =  0.003086 
+CoL_Bus_Util = 0.039683 
+Either_Row_CoL_Bus_Util = 0.042328 
+Issued_on_Two_Bus_Simul_Util = 0.000441 
+issued_two_Eff = 0.010417 
+queue_avg = 0.595238 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=11 avg=0.595238
+Memory Partition 1: 
+Cache L2_bank_002:
+MSHR contents
+
+Cache L2_bank_003:
+MSHR contents
+
+In Dram Latency Queue (total = 0): 
+DRAM[1]: 16 bks, busW=4 BL=8 CL=16, tRRD=8 tCCD=2, tRCD=16 tRAS=37 tRP=16 tRC=52
+n_cmd=2268 n_nop=2176 n_act=4 n_pre=0 n_ref_event=0 n_req=88 n_rd=88 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0776
+n_activity=221 dram_eff=0.7964
+bk0: 0a 2268i bk1: 0a 2269i bk2: 0a 2269i bk3: 0a 2269i bk4: 30a 2171i bk5: 29a 2162i bk6: 14a 2198i bk7: 15a 2102i bk8: 0a 2266i bk9: 0a 2267i bk10: 0a 2267i bk11: 0a 2267i bk12: 0a 2268i bk13: 0a 2268i bk14: 0a 2268i bk15: 0a 2268i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.954545
+Row_Buffer_Locality_read = 0.954545
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 2.514423
+Bank_Level_Parallism_Col = 2.483092
+Bank_Level_Parallism_Ready = 1.840909
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 2.483092 
+
+BW Util details:
+bwutil = 0.077601 
+total_CMD = 2268 
+util_bw = 176 
+Wasted_Col = 33 
+Wasted_Row = 0 
+Idle = 2059 
+
+BW Util Bottlenecks: 
+RCDc_limit = 32 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 13 
+rwq = 0 
+CCDLc_limit_alone = 13 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 2268 
+n_nop = 2176 
+Read = 88 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 4 
+n_pre = 0 
+n_ref = 0 
+n_req = 88 
+total_req = 88 
+
+Dual Bus Interface Util: 
+issued_total_row = 4 
+issued_total_col = 88 
+Row_Bus_Util =  0.001764 
+CoL_Bus_Util = 0.038801 
+Either_Row_CoL_Bus_Util = 0.040564 
+Issued_on_Two_Bus_Simul_Util = 0.000000 
+issued_two_Eff = 0.000000 
+queue_avg = 0.504850 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=9 avg=0.50485
+Memory Partition 2: 
+Cache L2_bank_004:
+MSHR contents
+
+Cache L2_bank_005:
+MSHR contents
+
+In Dram Latency Queue (total = 0): 
+DRAM[2]: 16 bks, busW=4 BL=8 CL=16, tRRD=8 tCCD=2, tRCD=16 tRAS=37 tRP=16 tRC=52
+n_cmd=2268 n_nop=2181 n_act=4 n_pre=0 n_ref_event=0 n_req=84 n_rd=84 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.07407
+n_activity=209 dram_eff=0.8038
+bk0: 0a 2268i bk1: 0a 2269i bk2: 0a 2270i bk3: 0a 2271i bk4: 27a 2178i bk5: 29a 2172i bk6: 13a 2198i bk7: 15a 2145i bk8: 0a 2265i bk9: 0a 2265i bk10: 0a 2266i bk11: 0a 2267i bk12: 0a 2268i bk13: 0a 2268i bk14: 0a 2268i bk15: 0a 2268i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.952381
+Row_Buffer_Locality_read = 0.952381
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 2.381443
+Bank_Level_Parallism_Col = 2.357513
+Bank_Level_Parallism_Ready = 1.690476
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 2.357513 
+
+BW Util details:
+bwutil = 0.074074 
+total_CMD = 2268 
+util_bw = 168 
+Wasted_Col = 28 
+Wasted_Row = 0 
+Idle = 2072 
+
+BW Util Bottlenecks: 
+RCDc_limit = 32 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 12 
+rwq = 0 
+CCDLc_limit_alone = 12 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 2268 
+n_nop = 2181 
+Read = 84 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 4 
+n_pre = 0 
+n_ref = 0 
+n_req = 84 
+total_req = 84 
+
+Dual Bus Interface Util: 
+issued_total_row = 4 
+issued_total_col = 84 
+Row_Bus_Util =  0.001764 
+CoL_Bus_Util = 0.037037 
+Either_Row_CoL_Bus_Util = 0.038360 
+Issued_on_Two_Bus_Simul_Util = 0.000441 
+issued_two_Eff = 0.011494 
+queue_avg = 0.206790 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=7 avg=0.20679
+Memory Partition 3: 
+Cache L2_bank_006:
+MSHR contents
+
+Cache L2_bank_007:
+MSHR contents
+
+In Dram Latency Queue (total = 0): 
+DRAM[3]: 16 bks, busW=4 BL=8 CL=16, tRRD=8 tCCD=2, tRCD=16 tRAS=37 tRP=16 tRC=52
+n_cmd=2268 n_nop=2180 n_act=4 n_pre=0 n_ref_event=0 n_req=84 n_rd=84 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.07407
+n_activity=216 dram_eff=0.7778
+bk0: 0a 2268i bk1: 0a 2269i bk2: 0a 2269i bk3: 0a 2269i bk4: 29a 2175i bk5: 27a 2163i bk6: 15a 2198i bk7: 13a 2147i bk8: 0a 2266i bk9: 0a 2267i bk10: 0a 2267i bk11: 0a 2267i bk12: 0a 2268i bk13: 0a 2268i bk14: 0a 2268i bk15: 0a 2268i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.952381
+Row_Buffer_Locality_read = 0.952381
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 2.320197
+Bank_Level_Parallism_Col = 2.306931
+Bank_Level_Parallism_Ready = 1.654762
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 2.306931 
+
+BW Util details:
+bwutil = 0.074074 
+total_CMD = 2268 
+util_bw = 168 
+Wasted_Col = 36 
+Wasted_Row = 0 
+Idle = 2064 
+
+BW Util Bottlenecks: 
+RCDc_limit = 34 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 13 
+rwq = 0 
+CCDLc_limit_alone = 13 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 2268 
+n_nop = 2180 
+Read = 84 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 4 
+n_pre = 0 
+n_ref = 0 
+n_req = 84 
+total_req = 84 
+
+Dual Bus Interface Util: 
+issued_total_row = 4 
+issued_total_col = 84 
+Row_Bus_Util =  0.001764 
+CoL_Bus_Util = 0.037037 
+Either_Row_CoL_Bus_Util = 0.038801 
+Issued_on_Two_Bus_Simul_Util = 0.000000 
+issued_two_Eff = 0.000000 
+queue_avg = 0.359347 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=8 avg=0.359347
+Memory Partition 4: 
+Cache L2_bank_008:
+MSHR contents
+
+Cache L2_bank_009:
+MSHR contents
+
+In Dram Latency Queue (total = 0): 
+DRAM[4]: 16 bks, busW=4 BL=8 CL=16, tRRD=8 tCCD=2, tRCD=16 tRAS=37 tRP=16 tRC=52
+n_cmd=2268 n_nop=2176 n_act=4 n_pre=0 n_ref_event=0 n_req=88 n_rd=88 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0776
+n_activity=232 dram_eff=0.7586
+bk0: 0a 2269i bk1: 0a 2270i bk2: 0a 2270i bk3: 0a 2271i bk4: 29a 2169i bk5: 30a 2173i bk6: 15a 2153i bk7: 14a 2135i bk8: 0a 2266i bk9: 0a 2266i bk10: 0a 2266i bk11: 0a 2267i bk12: 0a 2267i bk13: 0a 2267i bk14: 0a 2267i bk15: 0a 2267i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.954545
+Row_Buffer_Locality_read = 0.954545
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 2.406393
+Bank_Level_Parallism_Col = 2.385321
+Bank_Level_Parallism_Ready = 1.806818
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 2.385321 
+
+BW Util details:
+bwutil = 0.077601 
+total_CMD = 2268 
+util_bw = 176 
+Wasted_Col = 44 
+Wasted_Row = 0 
+Idle = 2048 
+
+BW Util Bottlenecks: 
+RCDc_limit = 36 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 28 
+rwq = 0 
+CCDLc_limit_alone = 28 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 2268 
+n_nop = 2176 
+Read = 88 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 4 
+n_pre = 0 
+n_ref = 0 
+n_req = 88 
+total_req = 88 
+
+Dual Bus Interface Util: 
+issued_total_row = 4 
+issued_total_col = 88 
+Row_Bus_Util =  0.001764 
+CoL_Bus_Util = 0.038801 
+Either_Row_CoL_Bus_Util = 0.040564 
+Issued_on_Two_Bus_Simul_Util = 0.000000 
+issued_two_Eff = 0.000000 
+queue_avg = 0.608466 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=14 avg=0.608466
+Memory Partition 5: 
+Cache L2_bank_010:
+MSHR contents
+
+Cache L2_bank_011:
+MSHR contents
+
+In Dram Latency Queue (total = 0): 
+DRAM[5]: 16 bks, busW=4 BL=8 CL=16, tRRD=8 tCCD=2, tRCD=16 tRAS=37 tRP=16 tRC=52
+n_cmd=2268 n_nop=2180 n_act=4 n_pre=0 n_ref_event=0 n_req=84 n_rd=84 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.07407
+n_activity=219 dram_eff=0.7671
+bk0: 0a 2268i bk1: 0a 2270i bk2: 0a 2270i bk3: 0a 2270i bk4: 26a 2195i bk5: 30a 2156i bk6: 14a 2170i bk7: 14a 2139i bk8: 0a 2265i bk9: 0a 2267i bk10: 0a 2267i bk11: 0a 2267i bk12: 0a 2267i bk13: 0a 2268i bk14: 0a 2268i bk15: 0a 2268i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.952381
+Row_Buffer_Locality_read = 0.952381
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 2.388350
+Bank_Level_Parallism_Col = 2.365854
+Bank_Level_Parallism_Ready = 1.773810
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 2.365854 
+
+BW Util details:
+bwutil = 0.074074 
+total_CMD = 2268 
+util_bw = 168 
+Wasted_Col = 39 
+Wasted_Row = 0 
+Idle = 2061 
+
+BW Util Bottlenecks: 
+RCDc_limit = 28 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 22 
+rwq = 0 
+CCDLc_limit_alone = 22 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 2268 
+n_nop = 2180 
+Read = 84 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 4 
+n_pre = 0 
+n_ref = 0 
+n_req = 84 
+total_req = 84 
+
+Dual Bus Interface Util: 
+issued_total_row = 4 
+issued_total_col = 84 
+Row_Bus_Util =  0.001764 
+CoL_Bus_Util = 0.037037 
+Either_Row_CoL_Bus_Util = 0.038801 
+Issued_on_Two_Bus_Simul_Util = 0.000000 
+issued_two_Eff = 0.000000 
+queue_avg = 0.438272 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=9 avg=0.438272
+Memory Partition 6: 
+Cache L2_bank_012:
+MSHR contents
+
+Cache L2_bank_013:
+MSHR contents
+
+In Dram Latency Queue (total = 0): 
+DRAM[6]: 16 bks, busW=4 BL=8 CL=16, tRRD=8 tCCD=2, tRCD=16 tRAS=37 tRP=16 tRC=52
+n_cmd=2268 n_nop=2180 n_act=4 n_pre=0 n_ref_event=0 n_req=84 n_rd=84 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.07407
+n_activity=220 dram_eff=0.7636
+bk0: 0a 2268i bk1: 0a 2269i bk2: 0a 2269i bk3: 0a 2271i bk4: 29a 2180i bk5: 27a 2182i bk6: 15a 2203i bk7: 13a 2155i bk8: 0a 2265i bk9: 0a 2266i bk10: 0a 2266i bk11: 0a 2267i bk12: 0a 2267i bk13: 0a 2268i bk14: 0a 2268i bk15: 0a 2268i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.952381
+Row_Buffer_Locality_read = 0.952381
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 2.111111
+Bank_Level_Parallism_Col = 2.077670
+Bank_Level_Parallism_Ready = 1.440476
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 2.077670 
+
+BW Util details:
+bwutil = 0.074074 
+total_CMD = 2268 
+util_bw = 168 
+Wasted_Col = 40 
+Wasted_Row = 0 
+Idle = 2060 
+
+BW Util Bottlenecks: 
+RCDc_limit = 39 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 18 
+rwq = 0 
+CCDLc_limit_alone = 18 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 2268 
+n_nop = 2180 
+Read = 84 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 4 
+n_pre = 0 
+n_ref = 0 
+n_req = 84 
+total_req = 84 
+
+Dual Bus Interface Util: 
+issued_total_row = 4 
+issued_total_col = 84 
+Row_Bus_Util =  0.001764 
+CoL_Bus_Util = 0.037037 
+Either_Row_CoL_Bus_Util = 0.038801 
+Issued_on_Two_Bus_Simul_Util = 0.000000 
+issued_two_Eff = 0.000000 
+queue_avg = 0.404321 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=9 avg=0.404321
+Memory Partition 7: 
+Cache L2_bank_014:
+MSHR contents
+
+Cache L2_bank_015:
+MSHR contents
+
+In Dram Latency Queue (total = 0): 
+DRAM[7]: 16 bks, busW=4 BL=8 CL=16, tRRD=8 tCCD=2, tRCD=16 tRAS=37 tRP=16 tRC=52
+n_cmd=2268 n_nop=2176 n_act=4 n_pre=0 n_ref_event=0 n_req=88 n_rd=88 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0776
+n_activity=218 dram_eff=0.8073
+bk0: 0a 2268i bk1: 0a 2270i bk2: 0a 2270i bk3: 0a 2270i bk4: 29a 2172i bk5: 29a 2162i bk6: 15a 2183i bk7: 15a 2125i bk8: 0a 2265i bk9: 0a 2266i bk10: 0a 2266i bk11: 0a 2267i bk12: 0a 2267i bk13: 0a 2268i bk14: 0a 2268i bk15: 0a 2268i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.954545
+Row_Buffer_Locality_read = 0.954545
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 2.517073
+Bank_Level_Parallism_Col = 2.485294
+Bank_Level_Parallism_Ready = 1.750000
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 2.485294 
+
+BW Util details:
+bwutil = 0.077601 
+total_CMD = 2268 
+util_bw = 176 
+Wasted_Col = 30 
+Wasted_Row = 0 
+Idle = 2062 
+
+BW Util Bottlenecks: 
+RCDc_limit = 28 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 14 
+rwq = 0 
+CCDLc_limit_alone = 14 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 2268 
+n_nop = 2176 
+Read = 88 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 4 
+n_pre = 0 
+n_ref = 0 
+n_req = 88 
+total_req = 88 
+
+Dual Bus Interface Util: 
+issued_total_row = 4 
+issued_total_col = 88 
+Row_Bus_Util =  0.001764 
+CoL_Bus_Util = 0.038801 
+Either_Row_CoL_Bus_Util = 0.040564 
+Issued_on_Two_Bus_Simul_Util = 0.000000 
+issued_two_Eff = 0.000000 
+queue_avg = 0.659171 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=13 avg=0.659171
+Memory Partition 8: 
+Cache L2_bank_016:
+MSHR contents
+
+Cache L2_bank_017:
+MSHR contents
+
+In Dram Latency Queue (total = 0): 
+DRAM[8]: 16 bks, busW=4 BL=8 CL=16, tRRD=8 tCCD=2, tRCD=16 tRAS=37 tRP=16 tRC=52
+n_cmd=2268 n_nop=2183 n_act=4 n_pre=0 n_ref_event=0 n_req=81 n_rd=81 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.07143
+n_activity=202 dram_eff=0.802
+bk0: 0a 2268i bk1: 0a 2271i bk2: 0a 2271i bk3: 0a 2272i bk4: 27a 2184i bk5: 29a 2176i bk6: 13a 2197i bk7: 12a 2183i bk8: 0a 2265i bk9: 0a 2265i bk10: 0a 2265i bk11: 0a 2266i bk12: 0a 2266i bk13: 0a 2267i bk14: 0a 2267i bk15: 0a 2268i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.950617
+Row_Buffer_Locality_read = 0.950617
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 2.203208
+Bank_Level_Parallism_Col = 2.177419
+Bank_Level_Parallism_Ready = 1.419753
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 2.177419 
+
+BW Util details:
+bwutil = 0.071429 
+total_CMD = 2268 
+util_bw = 162 
+Wasted_Col = 28 
+Wasted_Row = 0 
+Idle = 2078 
+
+BW Util Bottlenecks: 
+RCDc_limit = 28 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 12 
+rwq = 0 
+CCDLc_limit_alone = 12 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 2268 
+n_nop = 2183 
+Read = 81 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 4 
+n_pre = 0 
+n_ref = 0 
+n_req = 81 
+total_req = 81 
+
+Dual Bus Interface Util: 
+issued_total_row = 4 
+issued_total_col = 81 
+Row_Bus_Util =  0.001764 
+CoL_Bus_Util = 0.035714 
+Either_Row_CoL_Bus_Util = 0.037478 
+Issued_on_Two_Bus_Simul_Util = 0.000000 
+issued_two_Eff = 0.000000 
+queue_avg = 0.321429 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=10 avg=0.321429
+Memory Partition 9: 
+Cache L2_bank_018:
+MSHR contents
+
+Cache L2_bank_019:
+MSHR contents
+
+In Dram Latency Queue (total = 0): 
+DRAM[9]: 16 bks, busW=4 BL=8 CL=16, tRRD=8 tCCD=2, tRCD=16 tRAS=37 tRP=16 tRC=52
+n_cmd=2268 n_nop=2187 n_act=4 n_pre=0 n_ref_event=0 n_req=77 n_rd=77 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0679
+n_activity=193 dram_eff=0.7979
+bk0: 0a 2268i bk1: 0a 2269i bk2: 0a 2270i bk3: 0a 2270i bk4: 30a 2166i bk5: 26a 2170i bk6: 11a 2197i bk7: 10a 2165i bk8: 0a 2266i bk9: 0a 2267i bk10: 0a 2267i bk11: 0a 2267i bk12: 0a 2268i bk13: 0a 2268i bk14: 0a 2268i bk15: 0a 2268i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.948052
+Row_Buffer_Locality_read = 0.948052
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 2.560000
+Bank_Level_Parallism_Col = 2.522989
+Bank_Level_Parallism_Ready = 1.727273
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 2.522989 
+
+BW Util details:
+bwutil = 0.067901 
+total_CMD = 2268 
+util_bw = 154 
+Wasted_Col = 24 
+Wasted_Row = 0 
+Idle = 2090 
+
+BW Util Bottlenecks: 
+RCDc_limit = 32 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 8 
+rwq = 0 
+CCDLc_limit_alone = 8 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 2268 
+n_nop = 2187 
+Read = 77 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 4 
+n_pre = 0 
+n_ref = 0 
+n_req = 77 
+total_req = 77 
+
+Dual Bus Interface Util: 
+issued_total_row = 4 
+issued_total_col = 77 
+Row_Bus_Util =  0.001764 
+CoL_Bus_Util = 0.033951 
+Either_Row_CoL_Bus_Util = 0.035714 
+Issued_on_Two_Bus_Simul_Util = 0.000000 
+issued_two_Eff = 0.000000 
+queue_avg = 0.321869 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=10 avg=0.321869
+Memory Partition 10: 
+Cache L2_bank_020:
+MSHR contents
+
+Cache L2_bank_021:
+MSHR contents
+
+In Dram Latency Queue (total = 0): 
+DRAM[10]: 16 bks, busW=4 BL=8 CL=16, tRRD=8 tCCD=2, tRCD=16 tRAS=37 tRP=16 tRC=52
+n_cmd=2268 n_nop=2184 n_act=4 n_pre=0 n_ref_event=0 n_req=81 n_rd=81 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.07143
+n_activity=204 dram_eff=0.7941
+bk0: 0a 2268i bk1: 0a 2269i bk2: 0a 2270i bk3: 0a 2271i bk4: 30a 2165i bk5: 29a 2179i bk6: 11a 2196i bk7: 11a 2172i bk8: 0a 2265i bk9: 0a 2265i bk10: 0a 2266i bk11: 0a 2267i bk12: 0a 2268i bk13: 0a 2268i bk14: 0a 2268i bk15: 0a 2268i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.950617
+Row_Buffer_Locality_read = 0.950617
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 2.303665
+Bank_Level_Parallism_Col = 2.278947
+Bank_Level_Parallism_Ready = 1.580247
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 2.278947 
+
+BW Util details:
+bwutil = 0.071429 
+total_CMD = 2268 
+util_bw = 162 
+Wasted_Col = 30 
+Wasted_Row = 0 
+Idle = 2076 
+
+BW Util Bottlenecks: 
+RCDc_limit = 32 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 14 
+rwq = 0 
+CCDLc_limit_alone = 14 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 2268 
+n_nop = 2184 
+Read = 81 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 4 
+n_pre = 0 
+n_ref = 0 
+n_req = 81 
+total_req = 81 
+
+Dual Bus Interface Util: 
+issued_total_row = 4 
+issued_total_col = 81 
+Row_Bus_Util =  0.001764 
+CoL_Bus_Util = 0.035714 
+Either_Row_CoL_Bus_Util = 0.037037 
+Issued_on_Two_Bus_Simul_Util = 0.000441 
+issued_two_Eff = 0.011905 
+queue_avg = 0.297178 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=9 avg=0.297178
+Memory Partition 11: 
+Cache L2_bank_022:
+MSHR contents
+
+Cache L2_bank_023:
+MSHR contents
+
+In Dram Latency Queue (total = 0): 
+DRAM[11]: 16 bks, busW=4 BL=8 CL=16, tRRD=8 tCCD=2, tRCD=16 tRAS=37 tRP=16 tRC=52
+n_cmd=2268 n_nop=2187 n_act=4 n_pre=0 n_ref_event=0 n_req=77 n_rd=77 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0679
+n_activity=196 dram_eff=0.7857
+bk0: 0a 2268i bk1: 0a 2269i bk2: 0a 2269i bk3: 0a 2270i bk4: 27a 2174i bk5: 29a 2159i bk6: 10a 2139i bk7: 11a 2117i bk8: 0a 2266i bk9: 0a 2267i bk10: 0a 2267i bk11: 0a 2267i bk12: 0a 2267i bk13: 0a 2268i bk14: 0a 2268i bk15: 0a 2268i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.948052
+Row_Buffer_Locality_read = 0.948052
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 3.065574
+Bank_Level_Parallism_Col = 3.043956
+Bank_Level_Parallism_Ready = 2.371795
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 3.043956 
+
+BW Util details:
+bwutil = 0.067901 
+total_CMD = 2268 
+util_bw = 154 
+Wasted_Col = 30 
+Wasted_Row = 0 
+Idle = 2084 
+
+BW Util Bottlenecks: 
+RCDc_limit = 32 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 13 
+rwq = 0 
+CCDLc_limit_alone = 13 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 2268 
+n_nop = 2187 
+Read = 77 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 4 
+n_pre = 0 
+n_ref = 0 
+n_req = 77 
+total_req = 77 
+
+Dual Bus Interface Util: 
+issued_total_row = 4 
+issued_total_col = 77 
+Row_Bus_Util =  0.001764 
+CoL_Bus_Util = 0.033951 
+Either_Row_CoL_Bus_Util = 0.035714 
+Issued_on_Two_Bus_Simul_Util = 0.000000 
+issued_two_Eff = 0.000000 
+queue_avg = 0.550265 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=11 avg=0.550265
+
+========= L2 cache stats =========
+L2_cache_bank[0]: Access = 148, Miss = 94, Miss_rate = 0.635, Pending_hits = 54, Reservation_fails = 0
+L2_cache_bank[1]: Access = 84, Miss = 84, Miss_rate = 1.000, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[2]: Access = 84, Miss = 84, Miss_rate = 1.000, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[3]: Access = 88, Miss = 88, Miss_rate = 1.000, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[4]: Access = 84, Miss = 84, Miss_rate = 1.000, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[5]: Access = 84, Miss = 84, Miss_rate = 1.000, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[6]: Access = 88, Miss = 88, Miss_rate = 1.000, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[7]: Access = 84, Miss = 84, Miss_rate = 1.000, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[8]: Access = 84, Miss = 84, Miss_rate = 1.000, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[9]: Access = 88, Miss = 88, Miss_rate = 1.000, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[10]: Access = 84, Miss = 84, Miss_rate = 1.000, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[11]: Access = 84, Miss = 84, Miss_rate = 1.000, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[12]: Access = 88, Miss = 88, Miss_rate = 1.000, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[13]: Access = 84, Miss = 84, Miss_rate = 1.000, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[14]: Access = 84, Miss = 84, Miss_rate = 1.000, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[15]: Access = 88, Miss = 88, Miss_rate = 1.000, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[16]: Access = 84, Miss = 84, Miss_rate = 1.000, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[17]: Access = 78, Miss = 78, Miss_rate = 1.000, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[18]: Access = 81, Miss = 81, Miss_rate = 1.000, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[19]: Access = 77, Miss = 77, Miss_rate = 1.000, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[20]: Access = 77, Miss = 77, Miss_rate = 1.000, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[21]: Access = 81, Miss = 81, Miss_rate = 1.000, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[22]: Access = 77, Miss = 77, Miss_rate = 1.000, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[23]: Access = 77, Miss = 77, Miss_rate = 1.000, Pending_hits = 0, Reservation_fails = 0
+L2_total_cache_accesses = 2060
+L2_total_cache_misses = 2006
+L2_total_cache_miss_rate = 0.9738
+L2_total_cache_pending_hits = 54
+L2_total_cache_reservation_fails = 0
+L2_total_cache_breakdown:
+	L2_cache_stats_breakdown[GLOBAL_ACC_R][HIT] = 0
+	L2_cache_stats_breakdown[GLOBAL_ACC_R][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[GLOBAL_ACC_R][MISS] = 282
+	L2_cache_stats_breakdown[GLOBAL_ACC_R][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[GLOBAL_ACC_R][SECTOR_MISS] = 718
+	L2_cache_stats_breakdown[LOCAL_ACC_R][HIT] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_R][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_R][MISS] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_R][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_R][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[CONST_ACC_R][HIT] = 0
+	L2_cache_stats_breakdown[CONST_ACC_R][HIT_RESERVED] = 18
+	L2_cache_stats_breakdown[CONST_ACC_R][MISS] = 1
+	L2_cache_stats_breakdown[CONST_ACC_R][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[CONST_ACC_R][SECTOR_MISS] = 1
+	L2_cache_stats_breakdown[TEXTURE_ACC_R][HIT] = 0
+	L2_cache_stats_breakdown[TEXTURE_ACC_R][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[TEXTURE_ACC_R][MISS] = 0
+	L2_cache_stats_breakdown[TEXTURE_ACC_R][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[TEXTURE_ACC_R][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[GLOBAL_ACC_W][HIT] = 0
+	L2_cache_stats_breakdown[GLOBAL_ACC_W][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[GLOBAL_ACC_W][MISS] = 281
+	L2_cache_stats_breakdown[GLOBAL_ACC_W][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[GLOBAL_ACC_W][SECTOR_MISS] = 719
+	L2_cache_stats_breakdown[LOCAL_ACC_W][HIT] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_W][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_W][MISS] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_W][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_W][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[L1_WRBK_ACC][HIT] = 0
+	L2_cache_stats_breakdown[L1_WRBK_ACC][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[L1_WRBK_ACC][MISS] = 0
+	L2_cache_stats_breakdown[L1_WRBK_ACC][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[L1_WRBK_ACC][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[L2_WRBK_ACC][HIT] = 0
+	L2_cache_stats_breakdown[L2_WRBK_ACC][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[L2_WRBK_ACC][MISS] = 0
+	L2_cache_stats_breakdown[L2_WRBK_ACC][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[L2_WRBK_ACC][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[INST_ACC_R][HIT] = 0
+	L2_cache_stats_breakdown[INST_ACC_R][HIT_RESERVED] = 36
+	L2_cache_stats_breakdown[INST_ACC_R][MISS] = 1
+	L2_cache_stats_breakdown[INST_ACC_R][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[INST_ACC_R][SECTOR_MISS] = 3
+	L2_cache_stats_breakdown[L1_WR_ALLOC_R][HIT] = 0
+	L2_cache_stats_breakdown[L1_WR_ALLOC_R][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[L1_WR_ALLOC_R][MISS] = 0
+	L2_cache_stats_breakdown[L1_WR_ALLOC_R][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[L1_WR_ALLOC_R][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[L2_WR_ALLOC_R][HIT] = 0
+	L2_cache_stats_breakdown[L2_WR_ALLOC_R][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[L2_WR_ALLOC_R][MISS] = 0
+	L2_cache_stats_breakdown[L2_WR_ALLOC_R][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[L2_WR_ALLOC_R][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[GLOBAL_ACC_R][TOTAL_ACCESS] = 1000
+	L2_cache_stats_breakdown[CONST_ACC_R][TOTAL_ACCESS] = 20
+	L2_cache_stats_breakdown[GLOBAL_ACC_W][TOTAL_ACCESS] = 1000
+	L2_cache_stats_breakdown[INST_ACC_R][TOTAL_ACCESS] = 40
+L2_total_cache_reservation_fail_breakdown:
+L2_cache_data_port_util = 0.000
+L2_cache_fill_port_util = 0.033
+
+icnt_total_pkts_mem_to_simt=2060
+icnt_total_pkts_simt_to_mem=2020
+LD_mem_lat_dist  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ST_mem_lat_dist  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+----------------------------Interconnect-DETAILS--------------------------------
+Class 0:
+Packet latency average = 10.7821
+	minimum = 5
+	maximum = 60
+Network latency average = 10.7821
+	minimum = 5
+	maximum = 60
+Slowest packet = 2924
+Flit latency average = 10.7821
+	minimum = 5
+	maximum = 60
+Slowest flit = 2924
+Fragmentation average = 0
+	minimum = 0
+	maximum = 0
+Injected packet rate average = 0.0610121
+	minimum = 0 (at node 10)
+	maximum = 0.157076 (at node 0)
+Accepted packet rate average = 0.0610121
+	minimum = 0 (at node 10)
+	maximum = 0.160187 (at node 0)
+Injected flit rate average = 0.0610121
+	minimum = 0 (at node 10)
+	maximum = 0.157076 (at node 0)
+Accepted flit rate average= 0.0610121
+	minimum = 0 (at node 10)
+	maximum = 0.160187 (at node 0)
+Injected packet length average = 1
+Accepted packet length average = 1
+Total in-flight flits = 0 (0 measured)
+====== Overall Traffic Statistics ======
+====== Traffic class 0 ======
+Packet latency average = 10.7821 (1 samples)
+	minimum = 5 (1 samples)
+	maximum = 60 (1 samples)
+Network latency average = 10.7821 (1 samples)
+	minimum = 5 (1 samples)
+	maximum = 60 (1 samples)
+Flit latency average = 10.7821 (1 samples)
+	minimum = 5 (1 samples)
+	maximum = 60 (1 samples)
+Fragmentation average = 0 (1 samples)
+	minimum = 0 (1 samples)
+	maximum = 0 (1 samples)
+Injected packet rate average = 0.0610121 (1 samples)
+	minimum = 0 (1 samples)
+	maximum = 0.157076 (1 samples)
+Accepted packet rate average = 0.0610121 (1 samples)
+	minimum = 0 (1 samples)
+	maximum = 0.160187 (1 samples)
+Injected flit rate average = 0.0610121 (1 samples)
+	minimum = 0 (1 samples)
+	maximum = 0.157076 (1 samples)
+Accepted flit rate average = 0.0610121 (1 samples)
+	minimum = 0 (1 samples)
+	maximum = 0.160187 (1 samples)
+Injected packet size average = 1 (1 samples)
+Accepted packet size average = 1 (1 samples)
+Hops average = 1 (1 samples)
+----------------------------END-of-Interconnect-DETAILS-------------------------
+
+
+gpgpu_simulation_time = 0 days, 0 hrs, 0 min, 1 sec (1 sec)
+gpgpu_simulation_rate = 14000 (inst/sec)
+gpgpu_simulation_rate = 1286 (cycle/sec)
+kernel exit
+count : 360000 dst_start_addr : 0xc0000000
+,final result : 1 1 0GPGPU-Sim: *** exit detected ***

@@ -1,0 +1,143 @@
+
+
+
+
+
+
+
+
+.version 5.0
+.target sm_20
+.address_size 64
+
+
+
+
+.visible .entry _Z5inputPi(
+.param .u64 _Z5inputPi_param_0
+)
+{
+.reg .pred %p<2>;
+.reg .b32 %r<38>;
+.reg .b64 %rd<12>;
+
+	.shared .align 4 .b8 _Z5inputPi$__cuda_local_var_16159_30_non_const_s_data[4096];
+
+ld.param.u64 %rd4, [_Z5inputPi_param_0];
+mov.u32 %r37, -1024;
+mov.u64 %rd11, _Z5inputPi$__cuda_local_var_16159_30_non_const_s_data;
+
+BB0_1:
+mov.u64 %rd6, 2;
+st.shared.u32 [%rd11+4], %rd6;
+st.shared.u32 [%rd11], %rd6;
+st.shared.u32 [%rd11+12], %rd6;
+st.shared.u32 [%rd11+8], %rd6;
+st.shared.u32 [%rd11+20], %rd6;
+st.shared.u32 [%rd11+16], %rd6;
+st.shared.u32 [%rd11+28], %rd6;
+st.shared.u32 [%rd11+24], %rd6;
+st.shared.u32 [%rd11+36], %rd6;
+st.shared.u32 [%rd11+32], %rd6;
+st.shared.u32 [%rd11+44], %rd6;
+st.shared.u32 [%rd11+40], %rd6;
+st.shared.u32 [%rd11+52], %rd6;
+st.shared.u32 [%rd11+48], %rd6;
+st.shared.u32 [%rd11+60], %rd6;
+st.shared.u32 [%rd11+56], %rd6;
+st.shared.u32 [%rd11+68], %rd6;
+st.shared.u32 [%rd11+64], %rd6;
+st.shared.u32 [%rd11+76], %rd6;
+st.shared.u32 [%rd11+72], %rd6;
+st.shared.u32 [%rd11+84], %rd6;
+st.shared.u32 [%rd11+80], %rd6;
+st.shared.u32 [%rd11+92], %rd6;
+st.shared.u32 [%rd11+88], %rd6;
+st.shared.u32 [%rd11+100], %rd6;
+st.shared.u32 [%rd11+96], %rd6;
+st.shared.u32 [%rd11+108], %rd6;
+st.shared.u32 [%rd11+104], %rd6;
+st.shared.u32 [%rd11+116], %rd6;
+st.shared.u32 [%rd11+112], %rd6;
+st.shared.u32 [%rd11+124], %rd6;
+st.shared.u32 [%rd11+120], %rd6;
+add.s64 %rd11, %rd11, 128;
+add.s32 %r37, %r37, 32;
+setp.ne.s32	%p1, %r37, 0;
+@%p1 bra BB0_1;
+
+cvta.to.global.u64 %rd3, %rd4;
+bar.sync 0;
+mov.u32 %r4, %tid.x;
+mul.wide.s32 %rd7, %r4, 4;
+mov.u64 %rd8, _Z5inputPi$__cuda_local_var_16159_30_non_const_s_data;
+add.s64 %rd9, %rd8, %rd7;
+ld.shared.u32 %r5, [%rd9];
+add.s64 %rd10, %rd3, %rd7;
+ld.shared.u32 %r6, [%rd9+128];
+ld.shared.u32 %r7, [%rd9+256];
+ld.shared.u32 %r8, [%rd9+384];
+ld.shared.u32 %r9, [%rd9+512];
+ld.shared.u32 %r10, [%rd9+640];
+ld.shared.u32 %r11, [%rd9+768];
+ld.shared.u32 %r12, [%rd9+896];
+ld.shared.u32 %r13, [%rd9+1024];
+ld.shared.u32 %r14, [%rd9+1152];
+ld.shared.u32 %r15, [%rd9+1280];
+ld.shared.u32 %r16, [%rd9+1408];
+ld.shared.u32 %r17, [%rd9+1536];
+ld.shared.u32 %r18, [%rd9+1664];
+ld.shared.u32 %r19, [%rd9+1792];
+ld.shared.u32 %r20, [%rd9+1920];
+ld.shared.u32 %r21, [%rd9+2048];
+ld.shared.u32 %r22, [%rd9+2176];
+ld.shared.u32 %r23, [%rd9+2304];
+ld.shared.u32 %r24, [%rd9+2432];
+ld.shared.u32 %r25, [%rd9+2560];
+ld.shared.u32 %r26, [%rd9+2688];
+ld.shared.u32 %r27, [%rd9+2816];
+ld.shared.u32 %r28, [%rd9+2944];
+ld.shared.u32 %r29, [%rd9+3072];
+ld.shared.u32 %r30, [%rd9+3200];
+ld.shared.u32 %r31, [%rd9+3328];
+ld.shared.u32 %r32, [%rd9+3456];
+ld.shared.u32 %r33, [%rd9+3584];
+ld.shared.u32 %r34, [%rd9+3712];
+ld.shared.u32 %r35, [%rd9+3840];
+ld.shared.u32 %r36, [%rd9+3968];
+st.global.u32 [%rd10], %r5;
+st.global.u32 [%rd10+128], %r6;
+st.global.u32 [%rd10+256], %r7;
+st.global.u32 [%rd10+384], %r8;
+st.global.u32 [%rd10+512], %r9;
+st.global.u32 [%rd10+640], %r10;
+st.global.u32 [%rd10+768], %r11;
+st.global.u32 [%rd10+896], %r12;
+st.global.u32 [%rd10+1024], %r13;
+st.global.u32 [%rd10+1152], %r14;
+st.global.u32 [%rd10+1280], %r15;
+st.global.u32 [%rd10+1408], %r16;
+st.global.u32 [%rd10+1536], %r17;
+st.global.u32 [%rd10+1664], %r18;
+st.global.u32 [%rd10+1792], %r19;
+st.global.u32 [%rd10+1920], %r20;
+st.global.u32 [%rd10+2048], %r21;
+st.global.u32 [%rd10+2176], %r22;
+st.global.u32 [%rd10+2304], %r23;
+st.global.u32 [%rd10+2432], %r24;
+st.global.u32 [%rd10+2560], %r25;
+st.global.u32 [%rd10+2688], %r26;
+st.global.u32 [%rd10+2816], %r27;
+st.global.u32 [%rd10+2944], %r28;
+st.global.u32 [%rd10+3072], %r29;
+st.global.u32 [%rd10+3200], %r30;
+st.global.u32 [%rd10+3328], %r31;
+st.global.u32 [%rd10+3456], %r32;
+st.global.u32 [%rd10+3584], %r33;
+st.global.u32 [%rd10+3712], %r34;
+st.global.u32 [%rd10+3840], %r35;
+st.global.u32 [%rd10+3968], %r36;
+ret;
+}
+
+
